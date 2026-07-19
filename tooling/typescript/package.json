@@ -1,0 +1,12 @@
+{
+  "name": "@syracrm/typescript-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": "./base.json",
+    "./node-lib": "./node-lib.json",
+    "./nest-app": "./nest-app.json",
+    "./react-app": "./react-app.json"
+  }
+}
