@@ -1,0 +1,10 @@
+{
+  "extends": "../../tooling/typescript/node-lib.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "prisma/seed/**/*.ts"]
+}
