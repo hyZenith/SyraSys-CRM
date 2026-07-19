@@ -1,0 +1,23 @@
+{
+  "extends": "../../tooling/typescript/react-app.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@syracrm/*": [
+        "../../packages/*/src"
+      ]
+    },
+    "outDir": "dist"
+  },
+  "include": [
+    "src",
+    "vite.config.ts",
+    "vitest.setup.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
