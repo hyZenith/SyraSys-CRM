@@ -1,8 +1,20 @@
-export function App() {
+import { Outlet } from "react-router-dom";
+import { Sidebar } from "./features/sidebar";
+import { Topbar } from "./features/topbar";
+
+export default function App() {
   return (
-    <main className="mx-auto flex min-h-dvh max-w-5xl flex-col p-8">
-        helo world
-      
-    </main>
+    <div className="flex h-screen w-screen overflow-hidden bg-[var(--color-cream)]">
+      {/* Fixed Left Sidebar */}
+      <Sidebar />
+
+      {/* Main Content Area */}
+      <main className="flex flex-1 flex-col overflow-y-auto">
+        <Topbar />
+        <div className="flex-1 p-8 pt-4">
+          <Outlet />
+        </div>
+      </main>
+    </div>
   );
 }
