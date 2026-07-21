@@ -2,6 +2,110 @@ generator client {
   provider   = "prisma-client-js"
   engineType = "library"
 }
+
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          String    @default("Sales Manager") // "Admin", "Sales Manager", "Account Manager", "Project Manager", "Lead Manager"
+  
+  // Better Auth sessions and accounts
+  sessions      Session[]
+  accounts      Account[]
+  
+  // Audit Logs
+  auditLogs     AuditLog[] @relation("ActorRelation")
+  targetLogs    AuditLog[] @relation("TargetRelation")
+  
+  // Assigned Leads
+  assignedLeads Lead[]
+}
+
+model Session {
+  id             String   @id
+  userId         String
+  token          String   @unique
+  expiresAt      DateTime
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id
+  userId                String
+  accountId             String
+  providerId            String
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Invite {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  role       String    // The assigned role upon signup
+  tokenHash  String    @unique
+  invitedBy  String
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  actorUserId  String
+  targetUserId String?
+  action       String   // e.g. "LOGIN_SUCCESS", "LOGIN_FAILED", "MFA_RESET", "INVITE_SENT", "ROLE_CHANGED"
+  metadata     String?  // JSON string
+  createdAt    DateTime @default(now())
+
+  actor        User     @relation("ActorRelation", fields: [actorUserId], references: [id])
+  target       User?    @relation("TargetRelation", fields: [targetUserId], references: [id])
+}
+
+model Lead {
+  id             String    @id @default(uuid())
+  status         String    @default("Contacted") // e.g. "Contacted", "Negotiation", "Offer sent", "Deal closed"
+  tag            String    @default("New lead")  // e.g. "New lead", "Returning", "Priority", "Follow-up"
+  company        String
+  description    String
+  dueDate        String?
+  links          String[]  // Only link URLs can be stored
+  comments       String[]  // Important comments added by admin about the deal
+
+  // Assigned user details
+  assignedUserId String?
+  assignedUser   User?     @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
+  assigneeName   String?
+  assigneeRole   String?
+  assigneeAvatar String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+
