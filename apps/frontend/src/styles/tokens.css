@@ -1,0 +1,26 @@
+/* LeadNest CRM Design Tokens */
+
+:root {
+  /* Brand Typography */
+  --font-sans: 'Urbanist', sans-serif;
+
+  /* Brand Palette */
+  --color-primary-blue: #5880DA;
+  --color-lime: #C9F17E;
+  --color-light-blue: #BCDBFA;
+  --color-cream: #F7F9F5;
+  --color-ink: #1A1A1A;
+  --color-muted: #8A8A87;
+  --color-canvas: #B8B7B2;
+  --color-border: #E6E5E1;
+  
+  /* Status Pill Colors */
+  --color-tag-returning-bg: #DCE6FB;
+  --color-tag-returning-text: #5880DA;
+  --color-tag-followup-bg: #F5C242;
+  --color-tag-followup-text: #1A1A1A;
+  --color-tag-newlead-bg: #C9F17E;
+  --color-tag-newlead-text: #1A1A1A;
+  --color-tag-priority-bg: #1A1A1A;
+  --color-tag-priority-text: #FFFFFF;
+}

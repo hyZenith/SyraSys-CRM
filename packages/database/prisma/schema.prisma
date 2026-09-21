@@ -27,6 +27,11 @@ model User {
   
   // Assigned Leads
   assignedLeads Lead[]
+
+  // Created Proposals
+  createdProposals Proposal[] @relation("ProposalCreator")
+  // Assigned Customers
+  assignedCustomers Customer[] @relation("CustomerAssignee")
 }
 
 model Session {
@@ -104,8 +109,134 @@ model Lead {
   assigneeRole   String?
   assigneeAvatar String?
 
+  // Proposal tracking
+  proposals          Proposal[]
+  proposalDocuments  ProposalDocument[]
+
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
 
+model Proposal {
+  id             String    @id @default(uuid())
+  leadId         String
+  lead           Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  createdById    String?
+  createdBy      User?     @relation("ProposalCreator", fields: [createdById], references: [id], onDelete: SetNull)
 
+  title          String
+  description    String
+  status         String    @default("Draft") // e.g. "Draft", "Sent", "Accepted", "Declined"
+  totalAmount    Float
+  currency       String    @default("USD")
+  dueDate        DateTime?
+  
+  // Proposal document and PDF links
+  documentUrl    String?   // Link to proposal doc
+  pdfUrl         String?   // Link to proposal PDF file
+
+  // Proposal document attachments
+  documents      ProposalDocument[]
+  
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model ProposalDocument {
+  id          String    @id @default(uuid())
+  proposalId  String
+  proposal    Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  
+  leadId      String?
+  lead        Lead?     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  name        String    // Document name / title
+  fileUrl     String    // PDF or Doc file URL link
+  fileType    String?   // e.g. "pdf", "docx", "doc"
+  fileSize    Int?      // File size in bytes
+  
+  uploadedAt  DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Customer {
+  id             String     @id @default(uuid())
+  name           String
+  company        String
+  email          String
+  phone          String?
+  status         String     @default("Active") // e.g. "Active", "Inactive", "Onboarding", "VIP"
+  tag            String     @default("Client")  // e.g. "Enterprise", "SMB", "Client"
+  description    String?
+  avatar         String?
+  
+  // Assigned rep
+  assignedUserId String?
+  assignedUser   User?      @relation("CustomerAssignee", fields: [assignedUserId], references: [id], onDelete: SetNull)
+  assigneeName   String?
+  assigneeRole   String?
+  assigneeAvatar String?
+
+  // Module Features
+  contracts      Contract[]
+  ndas           Nda[]
+  invoices       Invoice[]
+  payments       Payment[]
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Contract {
+  id          String    @id @default(uuid())
+  customerId  String
+  customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  title       String
+  status      String    @default("Active") // "Draft", "Active", "Expired", "Terminated"
+  value       Float
+  startDate   DateTime
+  endDate     DateTime?
+  documentUrl String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Nda {
+  id          String    @id @default(uuid())
+  customerId  String
+  customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  title       String
+  status      String    @default("Signed") // "Pending", "Signed", "Expired"
+  signedDate  DateTime?
+  documentUrl String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Invoice {
+  id          String    @id @default(uuid())
+  customerId  String
+  customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  invoiceNumber String  @unique
+  amount      Float
+  status      String    @default("Pending") // "Draft", "Pending", "Paid", "Overdue"
+  dueDate     DateTime
+  payments    Payment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Payment {
+  id          String    @id @default(uuid())
+  customerId  String
+  customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  invoiceId   String?
+  invoice     Invoice?  @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  amount      Float
+  method      String    @default("Bank Transfer") // "Credit Card", "Bank Transfer", "PayPal"
+  status      String    @default("Completed") // "Completed", "Pending", "Failed"
+  paidAt      DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+}

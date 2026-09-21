@@ -9,7 +9,7 @@ export default function App() {
 
   if (isPending) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-[var(--color-cream)]">
+      <div className="flex h-screen w-screen items-center justify-center bg-[var(--color-canvas)]">
         <div className="text-sm font-medium text-[var(--color-ink)] animate-pulse">
           Loading SyraSys...
         </div>
@@ -22,14 +22,15 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[var(--color-cream)]">
-      {/* Fixed Left Sidebar */}
+    // Outer canvas — warm grey, the "tray" behind all floating panels
+    <div className="flex h-screen w-screen overflow-hidden bg-[var(--color-canvas)] p-3 gap-3">
+      {/* Sidebar: its own independently-rounded floating panel, inset from canvas */}
       <Sidebar />
 
-      {/* Main Content Area */}
-      <main className="flex flex-1 flex-col overflow-y-auto">
+      {/* Main content: its own independently-rounded floating panel */}
+      <main className="flex flex-1 flex-col overflow-y-auto bg-[var(--color-cream)] rounded-[20px] min-w-0">
         <Topbar />
-        <div className="flex-1 p-8 pt-4">
+        <div className="flex-1 px-8 pb-8 pt-4">
           <Outlet />
         </div>
       </main>

@@ -4,6 +4,9 @@ import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import type { StringValue } from "ms";
 import { AppController } from "./app.controller.js";
+import { AuthController } from "./auth.controller.js";
+import { LeadsController } from "./leads.controller.js";
+import { CustomersController } from "./customers.controller.js";
 
 @Module({
   imports: [
@@ -23,6 +26,6 @@ import { AppController } from "./app.controller.js";
       }),
     }),
   ],
-  controllers: [AppController],
+  controllers: [AppController, AuthController, LeadsController, CustomersController],
 })
 export class AppModule {}

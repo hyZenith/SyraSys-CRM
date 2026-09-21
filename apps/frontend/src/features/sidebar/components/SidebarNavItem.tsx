@@ -18,18 +18,18 @@ export function SidebarNavItem({ item, isActive }: SidebarNavItemProps) {
     <Link
       to={item.path}
       className={`
-        flex items-center gap-3 px-4 py-3 rounded-2xl transition-colors
+        flex items-center gap-3 px-4 py-3 rounded-2xl transition-colors text-sm font-medium
         ${
           isActive
-            ? "bg-[var(--color-cream)] text-[var(--color-ink)] font-semibold"
-            : "text-[var(--color-muted)] hover:bg-[var(--color-cream)]/50 hover:text-[var(--color-ink)]"
+            ? "bg-white text-[var(--color-ink)] font-semibold shadow-sm"
+            : "text-[var(--color-muted)] hover:bg-white/70 hover:text-[var(--color-ink)]"
         }
       `}
     >
       <Icon
         size={20}
         className={isActive ? "text-[var(--color-ink)]" : "text-[var(--color-muted)]"}
-        strokeWidth={isActive ? 2.5 : 2}
+        strokeWidth={isActive ? 2.5 : 1.75}
       />
       <span>{item.label}</span>
     </Link>

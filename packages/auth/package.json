@@ -11,8 +11,11 @@
   },
   "types": "./dist/index.d.ts",
   "dependencies": {
+    "@better-auth/utils": "^0.4.2",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
+    "@syracrm/database": "workspace:*",
+    "better-auth": "^1.6.23",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1"
   },
@@ -22,5 +25,10 @@
     "lint": "eslint src --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1"
   }
 }

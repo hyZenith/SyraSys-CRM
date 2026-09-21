@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@syracrm/database/client";
+// import
 
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? "http://localhost:5173";
 const BETTER_AUTH_URL = process.env.BETTER_AUTH_URL ?? "http://localhost:4000";

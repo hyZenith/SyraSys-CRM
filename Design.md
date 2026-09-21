@@ -1,7 +1,7 @@
-# LeadNest — CRM Dashboard Design Specification
+# SyraCrm — CRM Dashboard Design Specification
 
 A complete visual and structural spec for recreating this CRM dashboard UI.
-Product name shown in UI: **LeadNest**
+Product name shown in UI: **SyraCrm **
 
 ---
 
@@ -32,7 +32,7 @@ font-family: 'Urbanist', sans-serif;
 ### Extended / supporting colors (derived from screenshots)
 | Name | Hex (approx) | Usage |
 |---|---|---|
-| App background | `#B8B7B2` / warm grey | Outer canvas behind the dashboard card |
+| App background | `#B8B7B2` / warm grey | Outer canvas behind the dashboard card, and the gap/gutter color visible between the sidebar and main content panels |
 | Card / panel white | `#F7F9F5` – `#FFFFFF` | Sidebar, top bar, chart cards, kanban cards |
 | Ink / Near-black | `#1A1A1A` | Sidebar logo circle, "Add customer" button, "Priority" tag, headings, primary text |
 | Muted grey text | `#8A8A87` | Secondary text, placeholder text ("Search customer"), descriptions |
@@ -50,12 +50,17 @@ font-family: 'Urbanist', sans-serif;
 ## 3. Layout & Structure
 
 ### 3.1 Page shell
-- Entire UI sits as a **rounded card** (large radius, ~24–32px) centered on a warm grey/taupe background (`#B8B7B2`), giving a "framed app" presentation feel — like a product mockup, not edge-to-edge.
-- Inside that frame: a two-column app layout — **fixed left sidebar** + **fluid main content area**.
+- The overall UI sits on a warm grey/taupe outer canvas (`#B8B7B2`).
+- **Important structural detail:** the sidebar and the main content area are NOT one continuous flush block. They are **two distinct, separately-rounded panels** floating on the grey canvas, with the canvas color showing through as a visible **gutter/gap** on all sides:
+  - A gap between the **outer edge of the frame and the sidebar** (left, top, and bottom edges of the sidebar all show a margin of grey canvas around them).
+  - A gap between the **sidebar and the main content area** (they do not touch — the grey canvas shows through as a vertical gutter, roughly the same width as the card padding, ~12–16px).
+  - The main content area similarly floats with its own margin from the outer frame edge (top, right, bottom).
+- Each panel (sidebar, top bar, stat cards, kanban columns) has its **own independent rounded-rectangle shape** — soft corner radius (~16–20px) on all four corners of each panel — rather than one shared container with corners rounded only on the outside.
+- This creates a "floating cards on a tray" feel rather than a single flush app frame: the grey canvas acts as connective negative space/gutter between all major panels, not just as an outer border.
 
 ### 3.2 Left Sidebar (~260px wide)
-Background: white/cream (`#F7F9F5`), full height, contains:
-1. **Logo row (top):** circular dark badge with an abstract swirl/eye icon (white on black) + wordmark "LeadNest" in bold.
+Background: white/cream (`#F7F9F5`), presented as its own **freestanding rounded panel** (all 4 corners rounded, ~16–20px radius) — inset from the top, left, and bottom of the outer frame with a visible grey-canvas gap/margin (~12–16px) rather than sitting flush against the frame edges. Contains:
+1. **Logo row (top):** circular dark badge with an abstract swirl/eye icon (white on black) + wordmark "SyraCrm" in bold.
 2. **Primary nav list** (icon + label each, generous vertical spacing ~16–20px between items):
    - Dashboard (grid icon)
    - Tasks (clipboard icon)
@@ -65,11 +70,12 @@ Background: white/cream (`#F7F9F5`), full height, contains:
 3. **"Members" section** below nav, with section label + list of team members:
    - Circular avatar photo + full name, stacked vertically
    - Members: Scarlett Floyd, Aysha Hayes, Lawrence Patterson, Mateo Petty
-4. **Priority deal callout card** pinned near the bottom of sidebar:
-   - Dark/near-black rounded card
-   - Bold white heading "Priority deal"
-   - Grey/white supporting text: "The lead is already in the pipeline. Assign a manager and continue."
-   - White pill button labeled **"Assign"** with dark text
+4. **Admin account block** pinned near the bottom of sidebar (replaces the previous "Priority deal" callout card):
+   - Circular avatar photo of the logged-in admin/user (~40px), left-aligned
+   - Admin's full name (bold) + role/email as smaller muted-grey text beneath it, matching the same name/role pairing style used for kanban card assignees
+   - A settings/options affordance on the right side of the row — either a small gear icon button or a "⋯" more-options icon — giving quick access to account settings, profile, or logout
+   - Styled as its own subtle rounded block (cream/white or very light grey fill) sitting flush at the bottom of the sidebar panel, separated from the nav/members content above by a hairline divider or extra vertical spacing
+   - This effectively functions as the account switcher / "who's logged in" area rather than a promotional callout
 
 ### 3.3 Top Bar (within main content)
 Single row, all elements vertically centered:
@@ -140,12 +146,13 @@ Example card data (for reference/dummy content):
 
 ## 4. Component Styling Details
 
-- **Corner radius:** generously rounded throughout — cards ~16–20px, pills/buttons fully rounded (999px), small tags fully rounded, avatars perfectly circular, sidebar logo circular.
+- **Corner radius:** generously rounded throughout — cards ~16–20px, pills/buttons fully rounded (999px), small tags fully rounded, avatars perfectly circular, sidebar logo circular. The **sidebar itself is a fully-rounded standalone panel** (all four corners, not just the outer/inner edge) — see 3.1/3.2.
+- **Panel spacing / gutters:** treat the sidebar, top bar, stat cards, and kanban columns as independent floating panels separated by a consistent grey-canvas gutter (~12–16px) rather than a single merged container — this gap is a first-class layout element, not just outer page padding.
 - **Shadows:** very soft/subtle, barely-there elevation on cards floating over the grey canvas — no harsh drop shadows.
 - **Spacing:** generous padding inside cards (~20–24px), consistent gutter (~16–20px) between grid items.
 - **Icons:** thin-stroke line icons (outline style, ~1.5px stroke), monochrome (grey or matching text color), simple geometric shapes (no filled icons except status dots in tooltip).
 - **Buttons:**
-  - Primary (Add customer / Assign): solid fill, fully rounded, bold white label, small icon if applicable.
+  - Primary (Add customer): solid fill, fully rounded, bold white label, small icon if applicable.
   - Secondary (Sort by / Filters): text + icon only, no border/fill, grey/muted color.
 - **Badges/Pills:** small, fully rounded, bold small-caps-like label text, colored background matched to semantic meaning (green = positive/new, blue = returning, black = priority/urgent, yellow = follow-up).
 - **Avatars:** circular, photographic, ~32–40px diameter in cards, ~40px in sidebar member list.
@@ -157,7 +164,7 @@ Example card data (for reference/dummy content):
 
 - Style: **modern SaaS / fintech-adjacent minimal dashboard**, soft pastel-on-neutral palette, high legibility, generous whitespace, rounded-everything aesthetic.
 - Contrast strategy: mostly low-contrast neutrals (creams, greys, blues) with **black used sparingly** for the single primary CTA and top-priority tags, and **lime green used sparingly** as the "positive/growth" accent color.
-- Overall feel: calm, clean, professional CRM — approachable rather than corporate-cold, thanks to the pastel palette and rounded shapes.
+- Overall feel: calm, clean, professional CRM — approachable rather than corporate-cold, thanks to the pastel palette and rounded shapes, reinforced by the visible grey gutters between floating panels (sidebar sits apart from content, not fused to it).
 
 ---
 
@@ -176,9 +183,9 @@ When implementing this design (e.g., in React + Tailwind or plain HTML/CSS):
    --color-muted: #8A8A87;
    --color-canvas: #B8B7B2;
    ```
-3. Build layout as: outer canvas (grey) → rounded app frame → flex row of [sidebar (fixed width)] + [main content (flex-1)].
+3. Build layout as: outer canvas (grey) → **flex row of independently-rounded panels**: [sidebar, its own rounded card, inset from the frame edge with a canvas-colored gap] + [main content, its own rounded region, inset from the frame edge with a canvas-colored gap, separated from the sidebar by the same gap]. Do NOT render the sidebar and main content as one flush merged rectangle — the gutter between them (and around the sidebar) is a visible design element, using `--color-canvas` as its background so it reads as a gap, not a border.
 4. Main content stacks vertically: top bar → 3-column stats row (chart, heatmap, stacked KPI tiles) → 4-column kanban board.
 5. Use a charting library (e.g., Recharts) for the stacked area chart with a custom tooltip styled as a dark rounded popover.
 6. Build the heatmap as a CSS grid of small rounded divs, colored via a helper function mapping a value/intensity to one of the 3 accent colors.
 7. Kanban cards are simple rounded `div`s with the tag/company/description/assignee/footer structure above — no drag-and-drop functionality required unless requested, purely visual layout is enough to match the design.
-8. Keep all corner radii generous and consistent; avoid sharp corners anywhere in the UI.
+8. Keep all corner radii generous and consistent; avoid sharp corners anywhere in the UI. The sidebar's rounding applies to all four corners since it's a standalone panel, not a corner-shared container edge.

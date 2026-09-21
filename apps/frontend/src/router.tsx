@@ -3,6 +3,8 @@ import App from "./App";
 import { DashboardPage } from "./pages/dashboard";
 import { LeadsPage } from "./pages/leads/LeadsPage";
 import { CreateLeadPage } from "./pages/leads/CreateLeadPage";
+import { CreateProposalPage } from "./pages/proposals/CreateProposalPage";
+import { CustomersPage } from "./pages/customers/CustomersPage";
 
 export const router = createBrowserRouter([
   {
@@ -17,12 +19,12 @@ export const router = createBrowserRouter([
         path: "dashboard",
         element: <DashboardPage />,
       },
-      // Placeholders for other routes shown in the sidebar
       { path: "leads", element: <LeadsPage /> },
       { path: "leads/create", element: <CreateLeadPage /> },
+      { path: "leads/:leadId/proposals/create", element: <CreateProposalPage /> },
       { path: "tasks", element: <div>Tasks Page</div> },
       { path: "activity", element: <div>Activity Page</div> },
-      { path: "customers", element: <div>Customers Page</div> },
+      { path: "customers", element: <CustomersPage /> },
       { path: "settings", element: <div>Settings Page</div> },
     ],
   },

@@ -27,3 +27,5 @@ Thumbs.db
 # prisma local artifacts
 packages/database/prisma/dev.db
 packages/database/prisma/dev.db-journal
+
+*.tsbuildinfo
